@@ -1,10 +1,14 @@
 package com.pauter.githubrepoviewer.logic;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class Repository {
     private String name;
+    @JsonProperty("stargazers_count")
     private int stargazersCount;
 
     public Repository() {
@@ -28,9 +32,13 @@ public class Repository {
 
     @Override
     public String toString() {
-        return "Repository {" +
-                "name='" + name + '\'' +
-                ", stars=" + stargazersCount +
-                '}';
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonString = "";
+        try {
+            jsonString = objectMapper.writeValueAsString(this);
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+        return jsonString;
     }
 }

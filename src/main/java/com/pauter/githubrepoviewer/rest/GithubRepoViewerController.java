@@ -2,13 +2,10 @@ package com.pauter.githubrepoviewer.rest;
 
 import com.pauter.githubrepoviewer.app.GithubRepoViewerApplication;
 import com.pauter.githubrepoviewer.logic.Repository;
-import com.pauter.githubrepoviewer.logic.StarsCounter;
+import com.pauter.githubrepoviewer.logic.RepositoryProcessor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -28,28 +25,29 @@ public class GithubRepoViewerController {
     @Autowired
     private RestTemplate restTemplate;
 
-    @RequestMapping("/{userId}")
-    public List<Repository> getRepositoriesInfo(@PathVariable("userId") String userId) {
+    @RequestMapping("/{userName}")
+    public String getRepositoriesInfo(@PathVariable("userName") String userName) {
         ResponseEntity<List<Repository>> rateResponse =
-                restTemplate.exchange("https://api.github.com/users/" + userId + "/repos",
+                restTemplate.exchange("https://api.github.com/users/" + userName + "/repos",
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<Repository>>() {
                         });
         List<Repository> repositoryList = rateResponse.getBody();
         log.info(repositoryList.toString());
-        return repositoryList;
+        return repositoryList.toString();
     }
 
-    @RequestMapping("/{userId}/stars")
-    public int getUserStarsCount(@PathVariable("userId") String userId) {
+    @RequestMapping("/{userName}/stars")
+    public String getUserStarsCount(@PathVariable("userName") String userName) {
         ResponseEntity<List<Repository>> rateResponse =
-                restTemplate.exchange("https://api.github.com/users/" + userId + "/repos",
+                restTemplate.exchange("https://api.github.com/users/" + userName + "/repos",
                         HttpMethod.GET, null, new ParameterizedTypeReference<List<Repository>>() {
                         });
         List<Repository> repositoryList = rateResponse.getBody();
-        if (repositoryList != null){
-            StarsCounter starsCounter = new StarsCounter(repositoryList);
-            return starsCounter.getAllStarsCounter();
-        }
-        else return 0;
+
+        RepositoryProcessor repositoryProcessor = new RepositoryProcessor(repositoryList);
+        int allStars =  repositoryProcessor.getAllStarsCounter();
+
+        return "{\"user\":\"" + userName + "\",\"stars\":" + allStars + "}";
+
     }
 }
