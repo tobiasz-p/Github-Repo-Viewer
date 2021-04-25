@@ -23,8 +23,8 @@ Aplikacja została stworzona jako zadanie rekrutacyjne na staż do Allegro
 * Spring
 
 ## Uruchomienie
-1. Pobierz plik .jar
-2. Uruchom plik .jar używając Javy
+1. Pobierz plik [githubrepoviewer-0.0.1-SNAPSHOT.jar](https://github.com/tobiasz-p/Github-Repo-Viewer/releases/tag/0.0.1) 
+3. Uruchom plik .jar używając Javy
 ```
  java -jar "githubrepoviewer-0.0.1-SNAPSHOT.jar"
 ```
