@@ -24,11 +24,11 @@ Aplikacja została stworzona jako zadanie rekrutacyjne na staż do Allegro
 
 ## Uruchomienie
 1. Pobierz plik [githubrepoviewer-0.0.1-SNAPSHOT.jar](https://github.com/tobiasz-p/Github-Repo-Viewer/releases/tag/0.0.1) 
-3. Uruchom plik .jar używając Javy
+3. Uruchom plik .jar używając Javy 16
 ```
  java -jar "githubrepoviewer-0.0.1-SNAPSHOT.jar"
 ```
-3. In your browser:  
+3. W przeglądarce:
     * Aby otrzymać listę repozytoriów wraz z gwiazdkami dane użytkownika wpisz:
     ```
     http://localhost:8080/user/{nazwa_uzytkownika}
